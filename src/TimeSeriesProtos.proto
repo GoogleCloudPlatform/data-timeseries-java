@@ -1,0 +1,105 @@
+/*
+ * Copyright (C) 2016 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+syntax = "proto3";
+option java_multiple_files = false;
+
+package com.google.cloud.solutions.samples.timeseries.proto;
+
+// Definitions for service timeseries solutions samples 
+
+message TSValueProto {
+  int64 time = 1;
+  string key = 2;
+  double value = 3;
+}
+
+message TSProto {
+  string key = 1;
+  int64 time = 2;
+  double Bid_Price = 3;
+  double Ask_Price = 4;
+  // Not all TS Values are generated from source, 
+  bool isLive = 6;
+}
+
+message TSAggValueProto {
+  string key = 1;
+  int64   closeTime = 2;	
+  TSProto openState = 3;
+  TSProto closeState = 4;
+  TSProto minAskValue = 5;
+  TSProto maxAskValue = 6;
+  TSProto minBidValue = 7;
+  TSProto maxBidValue = 8;
+  // Not all TS Values are generated from source, 
+  bool isLive = 9;
+  
+}
+
+// A simple version of the TSAggValueProto used for testing
+message SimpleAggTester {
+  string key = 1;
+  int64 closeTime = 2;
+  int64 openStateTime = 3;
+  int64 closeStateTime = 4;
+  double minAskPrice = 5;
+  double maxAskPrice = 6;
+  double minBidPrice = 7;
+  double maxBidPrice = 8;
+}
+
+message WorkPacketConfig {
+  int32 partitionLength = 1;
+  repeated string keys = 2;
+}
+
+message WorkPartition {
+  int32 partition = 1;
+}
+
+message WorkPacketKey {
+  string key1 = 1;
+  string key2 = 2;
+}
+
+message WorkPackets {
+  repeated WorkPacket workPackets = 1;
+}
+
+message WorkPacket {
+  string key = 1;
+  repeated WorkDataPoint dataPoints = 2 ;
+}
+
+message WorkDataPoint {
+  string key = 1;
+  int64 time = 2;
+  double value = 3;
+}
+
+message Correlation {
+  int64 time = 1;
+  string key = 2;
+  double value = 3;
+  int32 xCount = 4;
+  int32 yCount = 5;
+  bool isNaN = 6;
+  string window = 7;
+  repeated WorkDataPoint xValues = 8;
+  repeated WorkDataPoint yValues = 9;	
+}
+

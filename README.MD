@@ -24,7 +24,7 @@ com.google.cloud.solutions.samples.timeseries.pipelines
 com.google.cloud.solutions.samples.timeseries.pipelines.fx.FXTimeSeriesPipelineDemo
 
 ### Running the sample
-After downloading this sample you can run the example by changing to the timeseries directory and run the example using Maven by using the following command:
+After downloading this sample you can run the example by changing to the data-timeseries-java directory and run the example using Maven by using the following command:
 
 mvn install
 

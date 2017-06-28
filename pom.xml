@@ -28,7 +28,7 @@
 					<goal>java</goal>
 				</goals>
 				<configuration>
-					<mainClass>com.google.cloud.solutions.samples.timeseries.pipelines.fx.FXTimeSeriesPipelineDemo</mainClass>
+					<mainClass>com.google.cloud.solutions.samples.timeseries.dataflow.application.pipelines.fx.FXTimeSeriesPipelineDemo</mainClass>
 					<includePluginDependencies>false</includePluginDependencies>
 				</configuration>
 			</plugin>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.google.cloud.dataflow</groupId>
 			<artifactId>google-cloud-dataflow-java-sdk-all</artifactId>
-			<version>1.8.0</version>
+			<version>1.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

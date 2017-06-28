@@ -12,6 +12,13 @@ https://github.com/GoogleCloudPlatform/DataflowJavaSDK
 
 Java 1.8 is required for these samples.
 
+#### NOTE: 
+
+This sample is based on Dataflow version 1.9 which does not directly support keyed state. The workaround used here with accumulating panes will no longer be needed with version 2.0 which will make use of the BEAM SDK. This sample will be updated soon to make use of BEAM 2.0.
+
+For a production pipeline the main pipelines various stages should be written in a series of Transforms rather than DoFn's, this sample makes use of DoFn to more easily illustrate the concepts.
+
+
 #### Cost of Running the samples
 These samples have been setup to run locally and not require any dependencies to external resources such as Pub/Sub, BigTable or BigQuery. In a real world example you of course will be making use of these resources but before you make changes to incorporate these services please take time to understand the costs associated with this by looking at the pricing information at http://cloud.google.com.
 
@@ -21,14 +28,14 @@ Available pipelines will be located at:
 com.google.cloud.solutions.samples.timeseries.pipelines
 
 ## Example 1 : Financial instruments timeseries
-com.google.cloud.solutions.samples.timeseries.pipelines.fx.FXTimeSeriesPipelineDemo
+com.google.cloud.solutions.samples.timeseries.dataflow.application.pipelines.fx.FXTimeSeriesPipelineDemo
 
 ### Running the sample
-After downloading this sample you can run the example by changing to the data-timeseries-java directory and run the example using Maven by using the following command:
+After downloading this sample you can run the example by changing to the directory created and run the example using Maven by using the following command:
 
 mvn install
 
-mvn exec:java -Dexec.args="--runner=InProcessPipelineRunner"
+mvn exec:java Dexec.args="--runner=InProcessPipelineRunner"
 
 ### The FXTimeSeriesPipelineDemo pipeline in detail
 In this example we will use Dataflow to take multiple streams of data and compute the correlation between these streams. Each stream will be aggregated into a time window which will contain the open, close, min and max positions for that time window. We will then take a sliding window to these aggregation points and compute the correlation of all the values against each other. This sliding window will compute the correlations for all values against all other values. The number of calculations per sliding window will be (n^2-n)/2 so for 1000 assets this will be 499,500 computations.
@@ -81,62 +88,3 @@ In this step we will fill in any missing values and aggregate the data ready for
 
 ### STEP 5 : Process pairwise arrays with Pearson's correlation
 * Compute the correlation between the values
-
-### List of classes
-
-TimeSeriesProtos.proto
-Protobuffer definitions
-
-com/google/cloud/solutions/samples/timeseries/aggregation/CompleteTimeSeriesAggCombiner.java
-Combiner that adds the previous windows closing value to the current windows open value
-
-com/google/cloud/solutions/samples/timeseries/aggregation/CreateMissingTimeSeriesValuesDoFn.java
-This DoFn will fill gaps in the timeseries
-
-com/google/cloud/solutions/samples/timeseries/aggregation/DetectMissingTimeSeriesValuesCombiner.java
-This Combiner is used to determine any missing timeseries values in the current window
-
-com/google/cloud/solutions/samples/timeseries/aggregation/EmbedWindowTimeIntoAggregateDoFn.java
-This Combiner re-attaches the timeseries values time to aggregated elements for better resolution
-
-com/google/cloud/solutions/samples/timeseries/aggregation/PartialTimeSeriesAggCombiner.java
-This Combiner does the bulk of the work for aggregations by determining the max/min and close values
-
-com/google/cloud/solutions/samples/timeseries/aggregation/TimeseriesUtils.java
-Helper class for building the aggregations, this is separated from the combiner for better abstraction
-
-com/google/cloud/solutions/samples/timeseries/coders/TimeSeriesCoders.java
-Registers all coders with the pipeline
-
-com/google/cloud/solutions/samples/timeseries/computation/ComputationUtils.java
-Helper class for the computations combiners / transforms, this is separated for better abstraction
-
-com/google/cloud/solutions/samples/timeseries/computation/ComputeCorrelationsDoFn.java
-DoFn for calculating the Pearson correlations
-
-com/google/cloud/solutions/samples/timeseries/pipelines/fx/FXTimeSeriesPipelineDemo.java
-Demo Pipeline
-
-com/google/cloud/solutions/samples/timeseries/pipelines/fx/FXTimeSeriesPipelineOptions.java
-Pipeline Options
-
-com/google/cloud/solutions/samples/timeseries/proto/TimeSeriesProtos.java
-Generated Protobuffers
-
-com/google/cloud/solutions/samples/timeseries/tests/GenerateSampleData.java
-This class generates the sample TS1-TS5 timeseries
-
-com/google/cloud/solutions/samples/timeseries/tests/FXTimeSeriesPipelineSRGTests.java
-Unit Tests
-
-com/google/cloud/solutions/samples/timeseries/workpackets/CreateWorkPacketsDoFn.java
-This DoFn creates the {DataPoint[],DataPoint[]} work for distribution
-
-com/google/cloud/solutions/samples/timeseries/workpackets/DistributeWorkDataDoFn.java
-Due the uniqueness of this use case manual sharding of the data is required.  
-
-com/google/cloud/solutions/samples/timeseries/workpackets/FlattenKVIterableDoFn.java
-Fan out of the incoming list
-
-com/google/cloud/solutions/samples/timeseries/workpackets/WorkPacketUtils.java
-Helper class for creation of the work packets

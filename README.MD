@@ -33,9 +33,11 @@ com.google.cloud.solutions.samples.timeseries.dataflow.application.pipelines.fx.
 ### Running the sample
 After downloading this sample you can run the example by changing to the directory created and run the example using Maven by using the following command:
 
+```
 mvn install
 
-mvn exec:java Dexec.args="--runner=InProcessPipelineRunner"
+mvn exec:java -Dexec.args="--runner=InProcessPipelineRunner"
+```
 
 ### The FXTimeSeriesPipelineDemo pipeline in detail
 In this example we will use Dataflow to take multiple streams of data and compute the correlation between these streams. Each stream will be aggregated into a time window which will contain the open, close, min and max positions for that time window. We will then take a sliding window to these aggregation points and compute the correlation of all the values against each other. This sliding window will compute the correlations for all values against all other values. The number of calculations per sliding window will be (n^2-n)/2 so for 1000 assets this will be 499,500 computations.

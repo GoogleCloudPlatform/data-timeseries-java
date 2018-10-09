@@ -88,3 +88,9 @@ In this step we will fill in any missing values and aggregate the data ready for
 
 ### STEP 5 : Process pairwise arrays with Pearson's correlation
 * Compute the correlation between the values
+
+## Contributing
+Everyone is welcome to contribute. Please take a moment to review the [contributing guidelines](CONTRIBUTING.md).
+
+## License
+Dataflow Timeseries Examples is an open source project licensed under the Apache License 2.0. See the [license](LICENSE) file for more details.
